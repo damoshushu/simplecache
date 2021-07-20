@@ -1,6 +1,6 @@
 {
   "name": "kscache",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "This is a simple local cache with expire and remove-callback support",
   "main": "src/index.js",
   "scripts": {
