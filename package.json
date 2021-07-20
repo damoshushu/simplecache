@@ -1,0 +1,28 @@
+{
+  "name": "kscache",
+  "version": "1.0.0",
+  "description": "This is a simple local cache with expire and remove-callback support",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "author": "Kaiyuan.Zheng",
+  "license": "ISC",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damoshushu/simplecache.git"
+  },
+  "keywords": [
+    "kscache",
+    "expireCache",
+    "SimpleCache",
+    "Cache",
+    "NodeJsCache",
+    "JsCache"
+  ],
+  "bugs": {
+    "url": "https://github.com/damoshushu/simplecache/issues"
+  },
+  "homepage": "https://github.com/damoshushu/simplecache#readme"
+}
