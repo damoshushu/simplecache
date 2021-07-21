@@ -5,10 +5,14 @@ var isExpired = function (now, value) {
   if (!value) return false;
   return now > value.expireTime;
 }
-var checkExpire = function (that, key, value) {
-  if (isExpired(new Date().getTime(), value)) {
+var checkExpire = function (that, key, value, isUpdateDuration) {
+  let now = new Date().getTime();
+  if (isExpired(now, value)) {
     removeWithCallBack(that, key);
     return null;
+  }
+  if (isUpdateDuration) {
+    value.expireTime = now + that.globalDuration;
   }
   return value.value;
 }
@@ -46,12 +50,16 @@ var ensurePut = function (that, key, value, duration) {
 }
 
 function KSCache(size) {
-  this.globalDuration = 24 * 60 * 60; // default duration 24 hours
+  this.globalDuration = 365 * 24 * 60 * 60; // default duration 365 days
   this.size = size;
   this.cache = new HashMap();
   this.removeCallBack = undefined;
+  this.clearCallBack = undefined;
 }
 KSCache.prototype = {
+  setClearCallBack: function (callBack) {
+    this.clearCallBack = callBack;
+  },
   setRemoveCallBack: function (callBack) {
     this.removeCallBack = callBack;
   },
@@ -61,32 +69,46 @@ KSCache.prototype = {
   put: function (key, value, duration) {
     ensurePut(this, key, value, duration);
   },
-  get: function (key) {
+  get: function (key, updateDurarion) {
     var existing = this.cache.get(key);
-    return existing ? checkExpire(this, key, existing) : null;
+    return existing ? checkExpire(this, key, existing, updateDurarion) : null;
   },
   remove: function (key) {
     removeWithCallBack(this, key);
   },
   clear: function () {
     var allKeys = this.cache.keySet();
-    for (var i in allKeys) {
+    for (let i = 0; i < allKeys.length; i++) {
       removeWithCallBack(this, allKeys[i]);
     }
+    if (this.clearCallBack) {
+      clearCallBack();
+    }
+  },
+  keysWithExpireTime: function () {
+    return this.cache.keySet();
   },
   keys: function () {
     return this.cache.keySet();
+  },
+  getCachedArray: function (isSort) {
+    var _cacheArray = [];
+    for (var key in this.cache.map) {
+      _cacheArray.push(this.cache.map[key]);
+    }
+    if (isSort) {
+      _cacheArray.sort((a, b) => b.expireTime - a.expireTime);
+    }
+    return _cacheArray.map(v => v.value);
   },
   export: function () {
     return this.cache.map;
   },
   import: function (data) {
-    console.info("Start Importing!")
     var now = new Date().getTime();
     for (var key in data) {
       var item = data[key];
       var duration = item.expireTime - now;
-      console.info("Key->", key, "Item->", data[key], "duration->", duration)
       ensurePut(this, key, item.value, duration > 0 ? duration : 0);
     }
   }

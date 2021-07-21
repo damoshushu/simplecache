@@ -1,5 +1,7 @@
 const KSCache = require("../src/index")
 
+Array.prototype.kyle = "OK";
+
 const removeCallBack = function (key, value) {
   console.info("------Remove Call back!")
   console.info("Removed key:", key);
@@ -39,3 +41,40 @@ for (var i in keys) {
 console.info("Remove one key")
 cache2.remove(key)
 console.info("Cache 2 Key1:", cache2.get(key));
+
+console.info("Test Sort-----------------------")
+
+var cache3 = new KSCache(3);
+cache3.put("1", "1");
+cache3.put("2", "2");
+cache3.put("3", "3");
+console.info(cache3.getCachedArray(true));
+setTimeout(function () {
+  console.info("wait 2 seconds");
+  cache3.put("3", "3");
+  cache3.put("K4", "4");
+  console.info(cache3.getCachedArray(true));
+  console.info("Get 2", cache3.get("2", true));
+  console.info(cache3.getCachedArray(true));
+
+  console.info("traverse keys1")
+  var allKeys = cache3.keys();
+  for (var i = 0; i < allKeys.length; i++) {
+    console.info("Key:", allKeys[i])
+  }
+
+  console.info("traverse keys2")
+  var allKeys = cache3.keys();
+  for (var i in allKeys) {
+    console.info("Key:", allKeys[i])
+  }
+
+  console.info("AllKeys:=>", cache3.keys());
+  console.info("Export", cache3.export());
+  console.info("Clear!");
+  cache3.clear();
+  console.info("After clear", cache3.getCachedArray(true));
+  console.info("After clear export", cache3.export());
+}, 2000);
+//console.info("get 3!",cache3.get("3"));
+
