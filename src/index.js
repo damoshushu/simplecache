@@ -82,7 +82,7 @@ KSCache.prototype = {
       removeWithCallBack(this, allKeys[i]);
     }
     if (this.clearCallBack) {
-      clearCallBack();
+      this.clearCallBack();
     }
   },
   keysWithExpireTime: function () {
