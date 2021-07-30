@@ -9,6 +9,16 @@ const removeCallBack = function (key, value) {
   console.info("------End Call back")
 }
 
+var cache0 = new KSCache(2);
+cache0.put("http://xxxx","DDDD");
+cache0.remove("http://xxxx");
+
+console.info(cache0.export());
+
+
+console.info("----------------------")
+
+
 var cache = new KSCache(1);
 cache.setRemoveCallBack(removeCallBack);
 var key = "Key1"

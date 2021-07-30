@@ -29,6 +29,7 @@ var houseKeeping = function (that) {
   if (keys.length < 1) return;
   var now = new Date().getTime();
   for (var i in keys) {
+    let key = keys[i];
     if (isExpired(now, that.cache.get(keys[i]))) {
       removeWithCallBack(that, key)
       anyEviction = true;
