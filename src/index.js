@@ -18,10 +18,11 @@ var checkExpire = function (that, key, value, isUpdateDuration) {
 }
 var removeWithCallBack = function (that, key) {
   var item = that.cache.get(key) || {};
+  var result = that.cache.remove(key)
   if (that.removeCallBack) {
     that.removeCallBack(key, item.value)
   }
-  return that.cache.remove(key);
+  return result;
 }
 var houseKeeping = function (that) {
   let anyEviction = false;
