@@ -38,6 +38,9 @@ var houseKeeping = function (that) {
   }
   return anyEviction;
 }
+var update = function(that,key,value) {
+  that.cache.put(key, {value});
+}
 var ensurePut = function (that, key, value, duration) {
   var keys = that.cache.keySet();
   if (!that.cache.get(key) && keys.length >= that.size && !houseKeeping(that)) {
@@ -67,6 +70,9 @@ KSCache.prototype = {
   },
   setGlobalDuration: function (duration) {
     this.globalDuration = duration;
+  },
+  update:function (key, value) {
+    update(this, key, value);
   },
   put: function (key, value, duration) {
     ensurePut(this, key, value, duration);

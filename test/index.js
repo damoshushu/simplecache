@@ -10,7 +10,12 @@ const removeCallBack = function (key, value) {
 }
 
 var cache0 = new KSCache(2);
-cache0.put("http://xxxx","DDDD");
+cache0.put("http://xxxx",{D:"DDDD"});
+var item = cache0.get("http://xxxx");
+item.xxx="HHHHH";
+cache0.update("http://xxxx",item);
+console.info("After Update",cache0.get("http://xxxx"));
+
 cache0.remove("http://xxxx");
 
 console.info(cache0.export());
