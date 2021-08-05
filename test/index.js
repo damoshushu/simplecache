@@ -15,10 +15,20 @@ var item = cache0.get("http://xxxx");
 item.xxx="HHHHH";
 cache0.update("http://xxxx",item);
 console.info("After Update",cache0.get("http://xxxx"));
-
 cache0.remove("http://xxxx");
-
 console.info(cache0.export());
+console.info("----------------------")
+
+console.info("-----------Check get with update expire time-----------")
+cache0.put("1", "111")
+let cache0Export1 = cache0.export()
+setTimeout(function () { 
+  console.info("Cache 0 before get with update", cache0Export1)
+  console.info("Expire prolonged!", cache0.get("1",true)); 
+  console.info("Cache 0 after get with update", cache0.export()); 
+}, 6000);
+
+
 
 
 console.info("----------------------")

@@ -39,7 +39,11 @@ var houseKeeping = function (that) {
   return anyEviction;
 }
 var update = function(that,key,value) {
-  that.cache.put(key, {value});
+  let oldValue = that.cache.get(key)
+  that.cache.put(key, {
+    value,
+    expireTime:oldValue.expireTime
+  });
 }
 var ensurePut = function (that, key, value, duration) {
   var keys = that.cache.keySet();
